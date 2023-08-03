@@ -2,15 +2,14 @@ package frequency;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class FrequencyWords {
     public static void main(String[] args) throws FileNotFoundException {
         String file = "src/words.txt";
         Map<String, Integer> wordFrequencyMap = worDreed(file);
-        for (String word : wordFrequencyMap.keySet()) {
+        Map<String,Integer> sorte=sortMap(wordFrequencyMap);
+        for (String word : sorte.keySet()) {
             int frequency = wordFrequencyMap.get(word);
             System.out.println(word + " " + frequency);
         }
@@ -29,5 +28,23 @@ public class FrequencyWords {
         }
         scanner.close();
         return frequency;
+    }
+
+    private  static Map<String,Integer> sortMap(Map<String,Integer> map) {
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(map.entrySet());
+
+        Collections.sort(list,new Comparator<Map.Entry<String,Integer>>(){
+
+            @Override
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        Map<String,Integer> sortmap=new LinkedHashMap<>();
+        for (Map.Entry<String,Integer> entry:list){
+            sortmap.put(entry.getKey(),entry.getValue());
+        }
+return sortmap;
     }
 }
